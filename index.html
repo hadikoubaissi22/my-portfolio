@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hadi Koubaissi - Full Stack Web Developer Portfolio">
+    <title>Hadi Koubaissi | Full Stack Architect</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            /* Color Palette */
+            --bg-dark: #030712;
+            --bg-card: rgba(17, 24, 39, 0.7);
+            --primary: #3b82f6;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            
+            /* Effects */
+            --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+            --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            --glow-gradient: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(59, 130, 246, 0.15) 0%, transparent 50%);
+        }
+
+        /* --- Reset & Base --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Subtle Noise Overlay for Texture */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Ambient Background Glows */
+        .ambient-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            animation: pulseGlow 10s infinite alternate;
+        }
+        .glow-1 { top: -10%; left: -10%; background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, transparent 70%); }
+        .glow-2 { bottom: -10%; right: -10%; background: radial-gradient(circle, rgba(6, 182, 212, 0.12) 0%, transparent 70%); }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        /* --- Typography --- */
+        h1, h2, h3 { font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- Layout Utilities --- */
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        
+        section { padding: 6rem 0; }
+
+        /* --- Components --- */
+        
+        /* 1. Header */
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid transparent;
+        }
+        
+        header.scrolled {
+            background: rgba(3, 7, 18, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: var(--glass-border);
+        }
+
+        .nav-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .logo span { color: var(--primary); }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover, .nav-link.active { color: #fff; }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0; width: 0; height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
+        /* Mobile Menu Button */
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* 2. Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+            position: relative;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            margin-bottom: 1.5rem;
+        }
+
+        .typewriter {
+            color: var(--accent);
+            border-right: 2px solid var(--accent);
+            padding-right: 5px;
+            animation: blink 0.75s step-end infinite;
+        }
+
+        @keyframes blink { 50% { border-color: transparent; } }
+
+        .hero-desc {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            max-width: 540px;
+        }
+
+        .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.875rem 2rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            backdrop-filter: blur(4px);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        /* Hero Code Window */
+        .code-window {
+            background: #0f172a;
+            border-radius: 12px;
+            border: 1px solid #1e293b;
+            box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            transform: perspective(1000px) rotateY(-5deg) rotateX(2deg);
+            transition: transform 0.5s ease;
+        }
+
+        .code-window:hover {
+            transform: perspective(1000px) rotateY(0) rotateX(0);
+        }
+
+        .window-header {
+            background: #1e293b;
+            padding: 0.75rem 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot.red { background: #ef4444; }
+        .dot.yellow { background: #eab308; }
+        .dot.green { background: #22c55e; }
+
+        .window-body {
+            padding: 1.5rem;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+        }
+
+        .code-line { display: block; margin-bottom: 0.25rem; }
+        .cl-1 { color: #c084fc; } /* keyword */
+        .cl-2 { color: #60a5fa; } /* property */
+        .cl-3 { color: #4ade80; } /* string */
+        .cl-4 { color: #94a3b8; } /* comment */
+
+        /* 3. Spotlight Cards (Skills & Projects) */
+        .spotlight-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover { transform: translateY(-5px); }
+
+        /* The Spotlight Effect */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--glow-gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .card:hover::before { opacity: 1; }
+
+        .card-content { position: relative; z-index: 1; }
+
+        .card-icon {
+            width: 48px; height: 48px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; color: #fff; }
+        .card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
+
+        .tech-stack { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        
+        .badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 9999px;
+            color: #d1d5db;
+        }
+
+        /* 4. Timeline (Experience) */
+        .timeline {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            padding-left: 2rem;
+            border-left: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+            padding-left: 2rem;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -2.6rem;
+            top: 0;
+            width: 1rem;
+            height: 1rem;
+            background: var(--bg-dark);
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+        }
+
+        .exp-date {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        /* 5. Contact */
+        .contact-box {
+            background: linear-gradient(180deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.5) 100%);
+            border: var(--glass-border);
+            border-radius: 24px;
+            padding: 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .social-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        /* --- Animations --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Media Queries --- */
+        @media (max-width: 968px) {
+            .hero-grid { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
+            .hero-desc { margin: 0 auto 2.5rem; }
+            .btn-group { justify-content: center; }
+            .code-window { display: none; } /* Hide code block on mobile for cleaner UI */
+            
+            .nav-links {
+                position: fixed;
+                top: 0; right: -100%;
+                width: 100%; height: 100vh;
+                background: #030712;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: right 0.4s ease;
+                z-index: 99;
+            }
+            .nav-links.active { right: 0; }
+            .menu-btn { display: block; z-index: 100; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <header>
+        <div class="container">
+            <div class="nav-wrapper">
+                <a href="#" class="logo">&lt;HK/&gt;</a>
+                <button class="menu-btn" aria-label="Toggle Menu"><i class="fas fa-bars"></i></button>
+                <nav class="nav-links">
+                    <a href="#about" class="nav-link active">About</a>
+                    <a href="#skills" class="nav-link">Stack</a>
+                    <a href="#projects" class="nav-link">Work</a>
+                    <a href="#experience" class="nav-link">Experience</a>
+                    <a href="#contact" class="nav-link">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="about" class="hero">
+            <div class="container">
+                <div class="hero-grid">
+                    <div class="hero-content reveal">
+                        <h1>
+                            Hello, I'm Hadi.<br>
+                            <span class="gradient-text">Full Stack Architect</span><br>
+                            <span class="typewriter" id="typewriter"></span>
+                        </h1>
+                        <p class="hero-desc">
+                            Specialized in building high-performance applications that scale.
+                            <span id="experience-years"></span>+ years crafting systems handling 2,000+ concurrent users and complex API ecosystems.
+                        </p>
+                        <div class="btn-group">
+                            <a href="#contact" class="btn btn-primary">
+                                <span>Let's Talk</span> <i class="fas fa-arrow-right"></i>
+                            </a>
+                            <a href="https://github.com/yourusername" target="_blank" class="btn btn-outline">
+                                <i class="fab fa-github"></i> <span>GitHub</span>
+                            </a>
+                        </div>
+                        
+                        <div style="display: flex; gap: 3rem; margin-top: 3rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem;">
+                            <div>
+                                <div style="font-size: 1.5rem; font-weight: 700; color: #fff;"><span id="experience-years2"></span>+</div>
+                                <div style="font-size: 0.85rem; color: var(--text-muted);">Years Exp.</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 1.5rem; font-weight: 700; color: #fff;">500+</div>
+                                <div style="font-size: 0.85rem; color: var(--text-muted);">RPS Handled</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 1.5rem; font-weight: 700; color: #fff;">99%</div>
+                                <div style="font-size: 0.85rem; color: var(--text-muted);">Uptime</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="code-window reveal" style="transition-delay: 0.2s;">
+                        <div class="window-header">
+                            <div class="dot red"></div>
+                            <div class="dot yellow"></div>
+                            <div class="dot green"></div>
+                        </div>
+                        <div class="window-body font-mono">
+                            <span class="code-line"><span class="cl-1">const</span> developer <span class="cl-1">=</span> {</span>
+                            <span class="code-line">&nbsp;&nbsp;name: <span class="cl-3">"Hadi Koubaissi"</span>,</span>
+                            <span class="code-line">&nbsp;&nbsp;role: <span class="cl-3">"Full Stack Developer"</span>,</span>
+                            <span class="code-line">&nbsp;&nbsp;location: <span class="cl-3">"Lebanon"</span>,</span>
+                            <span class="code-line">&nbsp;&nbsp;stack: [</span>
+                            <span class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="cl-3">"React"</span>, <span class="cl-3">"Node.js"</span>,</span>
+                            <span class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="cl-3">"Laravel"</span>, <span class="cl-3">"Docker"</span></span>
+                            <span class="code-line">&nbsp;&nbsp;],</span>
+                            <span class="code-line">&nbsp;&nbsp;<span class="cl-4">// Ready to deploy?</span></span>
+                            <span class="code-line">&nbsp;&nbsp;hireable: <span class="cl-1">true</span></span>
+                            <span class="code-line">};</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <div class="container">
+                <div class="reveal" style="margin-bottom: 3rem;">
+                    <h2>Technical <span class="gradient-text">Arsenal</span></h2>
+                    <p style="color: var(--text-muted);">The tools I use to build digital products.</p>
+                </div>
+
+                <div class="spotlight-grid" id="skills-grid">
+                    <div class="card reveal">
+                        <div class="card-content">
+                            <div class="card-icon"><i class="fas fa-layer-group"></i></div>
+                            <h3>Frontend Engineering</h3>
+                            <p>Crafting pixel-perfect, responsive user interfaces with modern frameworks.</p>
+                            <div class="tech-stack">
+                                <span class="badge">React.js</span>
+                                <span class="badge">Next.js</span>
+                                <span class="badge">TypeScript</span>
+                                <span class="badge">Tailwind</span>
+                                <span class="badge">Vue.js</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card reveal">
+                        <div class="card-content">
+                            <div class="card-icon"><i class="fas fa-server"></i></div>
+                            <h3>Backend Systems</h3>
+                            <p>Architecting robust server-side logic and scalable APIs.</p>
+                            <div class="tech-stack">
+                                <span class="badge">Node.js</span>
+                                <span class="badge">Laravel</span>
+                                <span class="badge">ASP.NET Core</span>
+                                <span class="badge">Python</span>
+                                <span class="badge">Spring Boot</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card reveal">
+                        <div class="card-content">
+                            <div class="card-icon"><i class="fas fa-cloud"></i></div>
+                            <h3>DevOps & Cloud</h3>
+                            <p>Streamlining deployment and ensuring infrastructure reliability.</p>
+                            <div class="tech-stack">
+                                <span class="badge">Docker</span>
+                                <span class="badge">Kubernetes</span>
+                                <span class="badge">AWS</span>
+                                <span class="badge">CI/CD</span>
+                                <span class="badge">Linux</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <div class="container">
+                <div class="reveal" style="margin-bottom: 3rem;">
+                    <h2>Featured <span class="gradient-text">Work</span></h2>
+                    <p style="color: var(--text-muted);">Solutions delivered to solve real problems.</p>
+                </div>
+
+                <div class="spotlight-grid" id="projects-grid">
+                    <div class="card reveal">
+                        <div class="card-content">
+                            <div class="card-icon"><i class="fas fa-rocket"></i></div>
+                            <h3>API Gateway Architecture</h3>
+                            <p>Designed a microservices gateway handling 500+ RPS with Redis caching strategies.</p>
+                            <div class="tech-stack">
+                                <span class="badge">Node.js</span>
+                                <span class="badge">Redis</span>
+                                <span class="badge">Docker</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card reveal">
+                        <div class="card-content">
+                            <div class="card-icon"><i class="fas fa-building"></i></div>
+                            <h3>Enterprise SaaS Platform</h3>
+                            <p>Full-stack dashboard supporting 2,000+ users with real-time data visualization.</p>
+                            <div class="tech-stack">
+                                <span class="badge">React</span>
+                                <span class="badge">ASP.NET</span>
+                                <span class="badge">PostgreSQL</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card reveal">
+                        <div class="card-content">
+                            <div class="card-icon"><i class="fas fa-shopping-cart"></i></div>
+                            <h3>E-Commerce Solution</h3>
+                            <p>End-to-end platform with payment integration, inventory management, and SEO.</p>
+                            <div class="tech-stack">
+                                <span class="badge">Laravel</span>
+                                <span class="badge">Vue.js</span>
+                                <span class="badge">Stripe</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience">
+            <div class="container">
+                <div class="reveal" style="margin-bottom: 3rem; text-align: center;">
+                    <h2>My <span class="gradient-text">Journey</span></h2>
+                </div>
+                
+                <div class="timeline">
+                    <div class="timeline-item reveal">
+                        <div class="timeline-dot"></div>
+                        <span class="exp-date">Jul 2022 - Present</span>
+                        <h3 style="color: #fff; margin-bottom: 0.2rem;">Web Developer</h3>
+                        <h4 style="color: var(--primary); font-size: 0.95rem; margin-bottom: 1rem;">Cedars Software Solutions</h4>
+                        <p style="color: var(--text-muted); font-size: 0.95rem;">
+                            Leading full-stack development for high-traffic regional clients. Optimizing backend infrastructure to improve latency by 40%. Collaborating with cross-functional teams to deliver scalable web solutions using React and Laravel.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container">
+                <div class="contact-box reveal">
+                    <h2>Ready to start a project?</h2>
+                    <p style="color: var(--text-muted); max-width: 600px; margin: 1rem auto;">
+                        I'm currently available for freelance work and open to new opportunities. 
+                        Let's build something amazing together.
+                    </p>
+                    <div class="contact-links">
+                        <a href="mailto:your.email@example.com" class="social-btn" aria-label="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="https://linkedin.com/in/hadi-koubaissi-a1b5a923a" target="_blank" class="social-btn" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://github.com/yourusername" target="_blank" class="social-btn" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="tel:+96170931620" class="social-btn" aria-label="Phone">
+                            <i class="fas fa-phone"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer style="padding: 2rem 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 2rem;">
+        <p style="color: var(--text-muted); font-size: 0.85rem;">&copy; 2025 Hadi Koubaissi. Built with Code & Coffee.</p>
+    </footer>
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    function calculateExperience(startYear) {
+        const now = new Date();
+        const startDate = new Date(startYear, 0); // January 2022
+        const diffMs = now - startDate;
+
+        const diffYears = diffMs / (1000 * 60 * 60 * 24 * 365.25);
+        const fullYears = Math.floor(diffYears);
+        const remainingMonths = (diffYears - fullYears) * 12;
+
+        // Round up if 6 months or more
+        return remainingMonths >= 6 ? fullYears + 1 : fullYears;
+    }
+
+    const years = calculateExperience(2022);
+    document.getElementById("experience-years").textContent = years;
+    document.getElementById("experience-years2").textContent = years;
+
+    /* ===============================
+       1. Spotlight Effect (Mouse)
+    =============================== */
+    const handleOnMouseMove = (e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        e.currentTarget.style.setProperty("--x", `${x}px`);
+        e.currentTarget.style.setProperty("--y", `${y}px`);
+    };
+
+    document.querySelectorAll(".card").forEach(card => {
+        card.addEventListener("mousemove", handleOnMouseMove);
+    });
+
+    /* ===============================
+       2. Scroll Reveal Animation
+    =============================== */
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("active");
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll(".reveal").forEach(el => {
+        revealObserver.observe(el);
+    });
+
+    /* ===============================
+       3. Navbar + Scroll Active Link
+    =============================== */
+    const header = document.querySelector("header");
+    const menuBtn = document.querySelector(".menu-btn");
+    const navContainer = document.querySelector(".nav-links");
+    const navLinks = document.querySelectorAll(".nav-link");
+    const sections = document.querySelectorAll("section[id]");
+
+    // Header background on scroll
+    window.addEventListener("scroll", () => {
+        header.classList.toggle("scrolled", window.scrollY > 50);
+    });
+
+    // Mobile Menu Toggle
+    if (menuBtn) {
+        menuBtn.addEventListener("click", () => {
+            navContainer.classList.toggle("active");
+
+            const icon = menuBtn.querySelector("i");
+            icon.classList.toggle("fa-bars");
+            icon.classList.toggle("fa-times");
+        });
+    }
+
+    // Click-to-Active
+    navLinks.forEach(link => {
+        link.addEventListener("click", () => {
+            navLinks.forEach(l => l.classList.remove("active"));
+            link.classList.add("active");
+
+            navContainer.classList.remove("active");
+            menuBtn?.querySelector("i")?.classList.remove("fa-times");
+            menuBtn?.querySelector("i")?.classList.add("fa-bars");
+        });
+    });
+
+    // Scroll-to-Active
+    const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.id;
+
+                navLinks.forEach(link => {
+                    link.classList.toggle(
+                        "active",
+                        link.getAttribute("href") === `#${id}`
+                    );
+                });
+            }
+        });
+    }, {
+        rootMargin: "-40% 0px -40% 0px",
+        threshold: 0
+    });
+
+    sections.forEach(section => sectionObserver.observe(section));
+
+    /* ===============================
+       4. Typewriter Effect
+    =============================== */
+    const words = ["Web Developer", "Problem Solver", "Tech Enthusiast"];
+    const heading = document.getElementById("typewriter");
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    function typeEffect() {
+        if (!heading) return;
+
+        const currentWord = words[wordIndex];
+
+        if (!isDeleting) {
+            heading.textContent = currentWord.substring(0, charIndex++);
+            if (charIndex > currentWord.length) {
+                isDeleting = true;
+                setTimeout(typeEffect, 2000);
+                return;
+            }
+        } else {
+            heading.textContent = currentWord.substring(0, charIndex--);
+            if (charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+            }
+        }
+
+        setTimeout(typeEffect, isDeleting ? 50 : 100);
+    }
+
+    typeEffect();
+
+});
+</script>
+
+</body>
+</html>
