@@ -88,7 +88,7 @@
             padding: 0 1.5rem;
         }
         
-        section { padding: 6rem 0; }
+        section { padding: 3rem 0; }
 
         /* --- Components --- */
         
@@ -460,6 +460,7 @@
                     <a href="#skills" class="nav-link">Stack</a>
                     <a href="#projects" class="nav-link">Work</a>
                     <a href="#experience" class="nav-link">Experience</a>
+                    <a href="#education" class="nav-link">Education</a>
                     <a href="#contact" class="nav-link">Contact</a>
                 </nav>
             </div>
@@ -675,6 +676,30 @@
             </div>
         </section>
 
+        <section id="education">
+            <div class="container">
+                <div class="reveal" style="margin-bottom: 3rem; text-align: center;">
+                    <h2>My <span class="gradient-text">Education</span></h2>
+                </div>
+                
+                <div class="timeline">
+                    <div class="timeline-item reveal">
+                        <div class="timeline-dot"></div>
+                        <span class="exp-date">Jan 2024 - Jul 2025</span>
+                        <h3 style="color: #fff; margin-bottom: 0.2rem;">Master’s Degree in Information Systems Engineering</h3>
+                        <h4 style="color: var(--primary); font-size: 0.95rem; margin-bottom: 1rem;">Lebanese University</h4>
+                    </div>
+
+                    <div class="timeline-item reveal">
+                        <div class="timeline-dot"></div>
+                        <span class="exp-date">Sep 2019 - Jul 2022</span>
+                        <h3 style="color: #fff; margin-bottom: 0.2rem;">Bachelor’s Degree in Computer Communication Network Engineering</h3>
+                        <h4 style="color: var(--primary); font-size: 0.95rem; margin-bottom: 1rem;">Lebanese University</h4>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="contact">
             <div class="container">
                 <div class="contact-box reveal">
@@ -767,7 +792,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Header background on scroll
     window.addEventListener("scroll", () => {
-        header.classList.toggle("scrolled", window.scrollY > 50);
+        header.classList.toggle("scrolled", window.scrollY > 30);
     });
 
     // Mobile Menu Toggle
