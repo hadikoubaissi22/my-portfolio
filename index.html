@@ -443,6 +443,13 @@
             .nav-links.active { right: 0; }
             .menu-btn { display: block; z-index: 100; }
         }
+        @media (max-width: 768px) {
+            .stats-container {
+                justify-content: center !important;
+                text-align: center;
+                flex-wrap: wrap;
+            }
+        }
     </style>
 </head>
 <body>
@@ -490,19 +497,31 @@
                             </a>
                         </div>
                         
-                        <div style="display: flex; gap: 3rem; margin-top: 3rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem;">
+                        <div class="stats-container" style="display: flex; gap: 3rem; margin-top: 3rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem;">
+                            
                             <div>
-                                <div style="font-size: 1.5rem; font-weight: 700; color: #fff;"><span id="experience-years2"></span>+</div>
-                                <div style="font-size: 0.85rem; color: var(--text-muted);">Years Exp.</div>
+                                <div style="font-size: 1.5rem; font-weight: 700; color: #fff;">
+                                    <span id="experience-years2"></span>+
+                                </div>
+                                <div style="font-size: 0.85rem; color: var(--text-muted);">
+                                    Years Exp.
+                                </div>
                             </div>
+
                             <div>
                                 <div style="font-size: 1.5rem; font-weight: 700; color: #fff;">500+</div>
-                                <div style="font-size: 0.85rem; color: var(--text-muted);">RPS Handled</div>
+                                <div style="font-size: 0.85rem; color: var(--text-muted);">
+                                    RPS Handled
+                                </div>
                             </div>
+
                             <div>
                                 <div style="font-size: 1.5rem; font-weight: 700; color: #fff;">99%</div>
-                                <div style="font-size: 0.85rem; color: var(--text-muted);">Uptime</div>
+                                <div style="font-size: 0.85rem; color: var(--text-muted);">
+                                    Uptime
+                                </div>
                             </div>
+
                         </div>
                     </div>
 
